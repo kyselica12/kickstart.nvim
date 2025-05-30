@@ -214,7 +214,8 @@ function _ToggleTerminal()
 end
 
 -- Map <leader>t to toggle the terminal
-vim.keymap.set('n', '<C-\\>', _ToggleTerminal)
+vim.keymap.set('n', '<C-\\>', _ToggleTerminal, { desc = 'Toggle Terminal' })
+vim.keymap.set('t', '<C-\\>', _ToggleTerminal, { desc = 'Toggle Terminal' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
