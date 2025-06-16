@@ -105,7 +105,7 @@ vim.g.have_nerd_font = true
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -187,38 +187,10 @@ vim.keymap.set('n', '<leader>Q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- Define a global variable to store terminal buffer ID
-local terminal_bufnr = nil
-local terminal_winid = nil
-
-function _ToggleTerminal()
-  if terminal_bufnr and vim.api.nvim_buf_is_valid(terminal_bufnr) then
-    -- If terminal is visible, close it
-    if terminal_winid and vim.api.nvim_win_is_valid(terminal_winid) then
-      vim.api.nvim_win_close(terminal_winid, true)
-      terminal_winid = nil
-    else
-      -- Reopen the terminal in a new split
-      vim.cmd 'botright split'
-      terminal_winid = vim.api.nvim_get_current_win()
-      vim.api.nvim_win_set_buf(terminal_winid, terminal_bufnr)
-    end
-  else
-    -- Create a new terminal buffer
-    vim.cmd 'botright split'
-    terminal_winid = vim.api.nvim_get_current_win()
-    vim.cmd 'terminal'
-    terminal_bufnr = vim.api.nvim_get_current_buf()
-  end
-end
-
--- Map <leader>t to toggle the terminal
-vim.keymap.set('n', '<C-\\>', _ToggleTerminal, { desc = 'Toggle Terminal' })
-vim.keymap.set('t', '<C-\\>', _ToggleTerminal, { desc = 'Toggle Terminal' })
+vim.keymap.set('n', '<leader>so', '<cmd>source $MYVIMRC<CR>', { desc = 'Source VIMRC' })
 
 -- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+-- vim.keymap.set('n', '<left>', '<cmd>echo ""<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
@@ -229,6 +201,8 @@ vim.keymap.set('t', '<C-\\>', _ToggleTerminal, { desc = 'Toggle Terminal' })
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<leader>sl', '<cmd>vsplit<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<leader>sj', '<cmd>dsplit<CR>', { desc = 'Horizontal split' })
+vim.keymap.set('n', '<leader>st', '<cmd>tabnew<CR>', { desc = 'New Tab' })
+vim.keymap.set('n', '<TAB>', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
 
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
