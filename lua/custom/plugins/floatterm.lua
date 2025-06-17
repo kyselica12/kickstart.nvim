@@ -5,6 +5,24 @@ local state = {
   },
 }
 
+local function get_conda_env_from_yaml()
+  local yaml_file = vim.fn.getcwd() .. '/project.yaml'
+  if vim.fn.filereadable(yaml_file) == 0 then
+    return nil
+  end
+
+  for _, line in ipairs(vim.fn.readfile(yaml_file)) do
+    local env = string.match(line, '^%s*conda_env:%s*(%S+)')
+    if env then
+      return env
+    end
+  end
+
+  return nil
+end
+
+print(get_conda_env_from_yaml())
+
 function OpenFloatingTerm(opts)
   opts = opts or {}
   -- Calculate 80% of the editor size
@@ -45,6 +63,14 @@ function ToogleFloatingTerm()
     state.floating = OpenFloatingTerm { buf = state.floating.buf }
     if vim.bo[state.floating.buf].buftype ~= 'terminal' then
       vim.cmd.terminal()
+      local conda_env = get_conda_env_from_yaml()
+
+      local term_chan = vim.b.terminal_job_id
+      if conda_env and term_chan then
+        -- Send conda activation to terminal
+        vim.fn.chansend(term_chan, 'conda activate ' .. conda_env .. '\n')
+        vim.fn.chansend(term_chan, 'clear\n')
+      end
     end
     vim.cmd 'startinsert'
   else
@@ -60,3 +86,5 @@ end, {})
 vim.keymap.set('n', '<C-\\>', ToogleFloatingTerm, { desc = 'Toggle Terminal' })
 vim.keymap.set('i', '<C-\\>', ToogleFloatingTerm, { desc = 'Toggle Terminal' })
 vim.keymap.set('t', '<C-\\>', ToogleFloatingTerm, { desc = 'Toggle Terminal' })
+
+return {}

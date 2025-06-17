@@ -201,8 +201,10 @@ vim.keymap.set('n', '<leader>so', '<cmd>source $MYVIMRC<CR>', { desc = 'Source V
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<leader>sl', '<cmd>vsplit<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<leader>sj', '<cmd>dsplit<CR>', { desc = 'Horizontal split' })
-vim.keymap.set('n', '<leader>st', '<cmd>tabnew<CR>', { desc = 'New Tab' })
+
+vim.keymap.set('n', '<leader>st', '<cmd>tab split<CR>', { desc = 'Split into Tab' })
 vim.keymap.set('n', '<TAB>', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
+vim.keymap.set('n', '<S-TAB>', '<cmd>tabprevious<CR>', { desc = 'Last Tab' })
 
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
